@@ -26,7 +26,7 @@ public class FilteringApples {
         List<Apple> greenApples2 = filterApples(inventory, (Apple a) -> "green".equals(a.getColor()));
         System.out.println(greenApples2);
 
-        // 原始形式便利判断
+        // 原始形式遍历判断
         System.out.println("原始形式迭代查找结果 :" + filterHeavyApples(inventory));
 
         // 谓词形式 + 函数
