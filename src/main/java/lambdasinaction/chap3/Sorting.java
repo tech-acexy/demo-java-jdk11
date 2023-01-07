@@ -1,82 +1,58 @@
 package lambdasinaction.chap3;
 
+import lambdasinaction.bean.Apple;
+
 import java.util.*;
+
 import static java.util.Comparator.comparing;
 
 public class Sorting {
 
-    public static void main(String...args){
+    public static void main(String... args) {
 
-        // 1
         List<Apple> inventory = new ArrayList<>(Arrays.asList(new Apple(80, "green"), new Apple(155, "green"), new Apple(120, "red")));
 
-        // [Apple{color='green', weight=80}, Apple{color='red', weight=120}, Apple{color='green', weight=155}]
+        /**
+         * A 继承Comparator 实现compare接口完成排序
+         */
+        System.out.println("通过实现compare完成排序");
         inventory.sort(new AppleComparator());
         System.out.println(inventory);
 
-        // reshuffling things a little
+        // 将第二个苹果的信息进行更新
         inventory.set(1, new Apple(30, "green"));
-        
-        // 2
-        // [Apple{color='green', weight=30}, Apple{color='green', weight=80}, Apple{color='green', weight=155}]
+
+        // 通过匿名函数完成排序
         inventory.sort(new Comparator<Apple>() {
-            public int compare(Apple a1, Apple a2){
-                return a1.getWeight().compareTo(a2.getWeight()); 
-        }});
+            public int compare(Apple a1, Apple a2) {
+                return a1.getWeight().compareTo(a2.getWeight());
+            }
+        });
+        System.out.println("通过匿名函数实现compare完成排序");
         System.out.println(inventory);
 
-        // reshuffling things a little
+        // 将第二个苹果的信息进行更新
         inventory.set(1, new Apple(20, "red"));
-        
-        // 3
-        // [Apple{color='red', weight=20}, Apple{color='green', weight=30}, Apple{color='green', weight=155}]
+
+        // 通过lambda表达式精简匿名函数完成排序
         inventory.sort((a1, a2) -> a1.getWeight().compareTo(a2.getWeight()));
         System.out.println(inventory);
-        
-        // reshuffling things a little
+
+        // 将第二个苹果的信息进行更新
         inventory.set(1, new Apple(10, "red"));
-        
-        // 4
-        // [Apple{color='red', weight=10}, Apple{color='red', weight=20}, Apple{color='green', weight=155}]
+
+        // 通过 Function 接口函数 指定创建Apple的方式
+        // Function<Integer, Apple> createApple = Apple::new;
+
+        // 通过 Comparator.comparing 辅助函数创建 Comparator.compare行为 (将苹果的getWeight做为compareTo的两个参数) 并返回Comparator对象
+        // Comparator<Apple> comparator = Comparator.comparing(Apple::getWeight);
         inventory.sort(comparing(Apple::getWeight));
-        System.out.println(inventory);       
+        System.out.println(inventory);
     }
 
-    public static class Apple {
-        private Integer weight = 0;
-        private String color = "";
-
-        public Apple(Integer weight, String color){
-            this.weight = weight;
-            this.color = color;
-        }
-
-        public Integer getWeight() {
-            return weight;
-        }
-
-        public void setWeight(Integer weight) {
-            this.weight = weight;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-
-        public String toString() {
-            return "Apple{" +
-                   "color='" + color + '\'' +
-                   ", weight=" + weight +
-                   '}';
-        }
-    }
 
     static class AppleComparator implements Comparator<Apple> {
-        public int compare(Apple a1, Apple a2){
+        public int compare(Apple a1, Apple a2) {
             return a1.getWeight().compareTo(a2.getWeight());
         }
     }

@@ -1,4 +1,4 @@
-package lambdasinaction.appd;
+package lambdasinaction.appc;
 
 import java.util.function.Function;
 

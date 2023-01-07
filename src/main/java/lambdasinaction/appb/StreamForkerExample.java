@@ -1,12 +1,14 @@
-package lambdasinaction.appc;
+package lambdasinaction.appb;
 
+import lambdasinaction.bean.Dish;
 import lambdasinaction.chap6.*;
 
-import static java.util.stream.Collectors.*;
-import static lambdasinaction.chap6.Dish.menu;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
-import java.util.*;
-import java.util.stream.*;
+import static java.util.stream.Collectors.*;
+import static lambdasinaction.bean.Dish.menu;
 
 public class StreamForkerExample {
 

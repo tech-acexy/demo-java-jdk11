@@ -1,5 +1,7 @@
 package lambdasinaction.chap1;
 
+import lambdasinaction.bean.Apple;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;

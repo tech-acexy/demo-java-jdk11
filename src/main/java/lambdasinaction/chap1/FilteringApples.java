@@ -1,7 +1,8 @@
 package lambdasinaction.chap1;
 
+import lambdasinaction.bean.Apple;
+
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class FilteringApples {

@@ -4,7 +4,9 @@ import java.util.*;
 import java.util.function.*;
 
 import static java.util.stream.Collectors.*;
-import static lambdasinaction.chap6.Dish.menu;
+import static lambdasinaction.bean.Dish.menu;
+
+import lambdasinaction.bean.Dish;
 
 public class Summarizing {
 

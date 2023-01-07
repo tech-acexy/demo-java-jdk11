@@ -1,7 +1,8 @@
 package lambdasinaction.chap6;
 
 import static java.util.stream.Collectors.*;
-import static lambdasinaction.chap6.Dish.menu;
+import static lambdasinaction.bean.Dish.menu;
+import lambdasinaction.bean.Dish;
 
 public class Reducing {
 

@@ -1,4 +1,4 @@
-package lambdasinaction.chap1;
+package lambdasinaction.bean;
 
 public class Apple {
     private int weight;

@@ -1,4 +1,4 @@
-package lambdasinaction.appc;
+package lambdasinaction.appb;
 
 import java.util.*;
 import java.util.concurrent.*;
