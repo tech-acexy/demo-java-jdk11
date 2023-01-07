@@ -47,6 +47,16 @@ public class FilteringApples {
         List<Apple> wantedApples = filterApples(inventory, (Apple a) -> a.getWeight() < 130 || "green".equals(a.getColor()));
         System.out.println(wantedApples);
 
+
+        Predicate<Apple> greenApple = (a) -> a.getColor().equals("green");
+        System.out.println("绿色苹果 " + filterApples(inventory, greenApple));
+
+        Predicate<Apple> notGreenApple = greenApple.negate();
+        System.out.println("非绿色苹果 " + filterApples(inventory, notGreenApple));
+
+        // 绿/黄或者重量大于100的苹果
+        Predicate<Apple> p = greenApple.or(a -> a.getWeight() > 100).or(a -> a.getColor().equals("yellow"));
+        System.out.println("绿/黄或者重量大于100的苹果 " + filterApples(inventory, p));
     }
 
     public interface CreateApple<H, C, R> {
