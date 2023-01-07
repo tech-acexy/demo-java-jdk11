@@ -1,9 +1,12 @@
 package lambdasinaction.chap1;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class FilteringApples {
+
+    static final CreateApple<Integer, String, Apple> creator = Apple::new;
 
     public static void main(String... args) {
 
@@ -11,7 +14,9 @@ public class FilteringApples {
         List<Apple> inventory = Arrays.asList(
                 new Apple(80, "green"),
                 new Apple(155, "green"),
-                new Apple(120, "red")
+                new Apple(120, "red"),
+                creator.apply(100, "yellow"),
+                creator.apply(130, "green")
         );
 
 
@@ -40,6 +45,12 @@ public class FilteringApples {
         // 查找小于130或者为红色
         List<Apple> wantedApples = filterApples(inventory, (Apple a) -> a.getWeight() < 130 || "green".equals(a.getColor()));
         System.out.println(wantedApples);
+
+    }
+
+    public interface CreateApple<H, C, R> {
+        R apply(H h, C c);
+
     }
 
     public static List<Apple> filterGreenApples(List<Apple> inventory) {

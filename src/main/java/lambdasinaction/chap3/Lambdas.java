@@ -17,7 +17,6 @@ public class Lambdas {
         List<Apple> greenApples = filter(inventory, (Apple a) -> "green".equals(a.getColor()));
         System.out.println(greenApples);
 
-
 //        Comparator<Apple> c = (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight());
         Comparator<Apple> c = Comparator.comparing(Apple::getWeight);
 
