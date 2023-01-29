@@ -59,6 +59,7 @@ public class FilteringApples {
         System.out.println("绿/黄或者重量大于100的苹果 " + filterApples(inventory, p));
     }
 
+    @FunctionalInterface
     public interface CreateApple<H, C, R> {
         R apply(H h, C c);
 

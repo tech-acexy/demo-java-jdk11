@@ -1,5 +1,7 @@
 package lambdasinaction.chap2;
 
+import java.util.function.Function;
+
 public class MeaningOfThis {
     public final int value = 4;
 
@@ -19,5 +21,6 @@ public class MeaningOfThis {
     public static void main(String... args) {
         MeaningOfThis m = new MeaningOfThis();
         m.doIt(); // ???
+
     }
 }

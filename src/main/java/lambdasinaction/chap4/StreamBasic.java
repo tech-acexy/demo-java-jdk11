@@ -22,11 +22,15 @@ public class StreamBasic {
 
     public static List<String> getLowCaloricDishesNamesInJava7(List<Dish> dishes){
         List<Dish> lowCaloricDishes = new ArrayList<>();
+
         for(Dish d: dishes){
+            // 筛选卡路里低于400
             if(d.getCalories() < 400){
                 lowCaloricDishes.add(d);
             }
         }
+
+
         List<String> lowCaloricDishesName = new ArrayList<>();
         Collections.sort(lowCaloricDishes, new Comparator<Dish>() {
             public int compare(Dish d1, Dish d2){
