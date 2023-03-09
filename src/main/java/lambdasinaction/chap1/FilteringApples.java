@@ -24,8 +24,13 @@ public class FilteringApples {
         // 原始形式迭代遍历判断
         System.out.println("原始形式迭代查找结果 :" + filterGreenApples(inventory));
 
-        // 谓词形式 + 函数
-        List<Apple> greenApples = filterApples(inventory, FilteringApples::isGreenApple);
+        // 谓词形式
+        List<Apple> greenApples = filterApples(inventory, new Predicate<Apple>() {
+            @Override
+            public boolean test(Apple apple) {
+                return apple.getColor().equals("green");
+            }
+        });
         System.out.println(greenApples);
 
         // 谓词形式 + Lambda 匿名函数表达式
@@ -38,6 +43,16 @@ public class FilteringApples {
         // 谓词形式 + 函数
         List<Apple> heavyApples = filterApples(inventory, FilteringApples::isHeavyApple);
         System.out.println(heavyApples);
+
+        // 谓词形式
+        heavyApples = filterApples(inventory, new Predicate<Apple>() {
+            @Override
+            public boolean test(Apple apple) {
+                return apple.getWeight() > 150;
+            }
+        });
+        System.out.println(heavyApples);
+
 
         // 谓词形式 + Lambda 匿名函数表达式
         List<Apple> heavyApples2 = filterApples(inventory, (Apple a) -> a.getWeight() > 150);

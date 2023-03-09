@@ -13,14 +13,13 @@ public class StreamBasic {
         // Java 7
         getLowCaloricDishesNamesInJava7(Dish.menu).forEach(System.out::println);
 
-        System.out.println("---");
-
         // Java 8
         getLowCaloricDishesNamesInJava8(Dish.menu).forEach(System.out::println);
 
     }
 
     public static List<String> getLowCaloricDishesNamesInJava7(List<Dish> dishes){
+
         List<Dish> lowCaloricDishes = new ArrayList<>();
 
         for(Dish d: dishes){
@@ -30,13 +29,11 @@ public class StreamBasic {
             }
         }
 
-
         List<String> lowCaloricDishesName = new ArrayList<>();
-        Collections.sort(lowCaloricDishes, new Comparator<Dish>() {
-            public int compare(Dish d1, Dish d2){
-                return Integer.compare(d1.getCalories(), d2.getCalories());
-            }
-        });
+
+        // 将lowCaloric按照卡路里值进行升序排序
+        lowCaloricDishes.sort(Comparator.comparingInt(Dish::getCalories));
+
         for(Dish d: lowCaloricDishes){
             lowCaloricDishesName.add(d.getName());
         }
