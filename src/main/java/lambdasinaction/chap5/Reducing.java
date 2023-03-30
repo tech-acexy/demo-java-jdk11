@@ -9,7 +9,7 @@ public class Reducing{
 
     public static void main(String...args){
 
-        List<Integer> numbers = Arrays.asList(3,4,5,1,2);
+        List<Integer> numbers = Arrays.asList(3, 4, 5, 1, 2);
         int sum = numbers.stream().reduce(0, (a, b) -> a + b);
         System.out.println(sum);
 
@@ -26,5 +26,6 @@ public class Reducing{
                            .map(Dish::getCalories)
                            .reduce(0, Integer::sum);
         System.out.println("Number of calories:" + calories);
+
     }
 }
