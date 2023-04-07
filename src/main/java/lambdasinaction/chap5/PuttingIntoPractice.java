@@ -1,13 +1,13 @@
 package lambdasinaction.chap5;
 
-import lambdasinaction.chap5.*;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 public class PuttingIntoPractice {
+
     public static void main(String... args) {
 
         Trader raoul = new Trader("Raoul", "Cambridge");
@@ -25,67 +25,56 @@ public class PuttingIntoPractice {
         );
 
 
-        // Query 1: Find all transactions from year 2011 and sort them by value (small to high).
+        // 2011年发生的所有交易，并按交易额排序（从低到高）
         List<Transaction> tr2011 = transactions.stream()
                 .filter(transaction -> transaction.getYear() == 2011)
                 .sorted(comparing(Transaction::getValue))
                 .collect(toList());
-        System.out.println(tr2011);
+        System.out.println("2011年发生的所有交易，并按交易额排序（从低到高）-> " + tr2011);
 
-        // Query 2: What are all the unique cities where the traders work?
-        List<String> cities =
-                transactions.stream()
-                        .map(transaction -> transaction.getTrader().getCity())
-                        .distinct()
-                        .collect(toList());
-        System.out.println(cities);
-
-        // Query 3: Find all traders from Cambridge and sort them by name.
-
-        List<Trader> traders =
-                transactions.stream()
-                        .map(Transaction::getTrader)
-                        .filter(trader -> trader.getCity().equals("Cambridge"))
-                        .distinct()
-                        .sorted(comparing(Trader::getName))
-                        .collect(toList());
-        System.out.println(traders);
+        // 员工都在哪些城市工作
+        List<String> cities = transactions.stream()
+                .map(transaction -> transaction.getTrader().getCity())
+                .distinct()
+                .collect(toList());
+        System.out.println("员工都在哪些城市工作 ->" + cities);
 
 
-        // Query 4: Return a string of all traders’ names sorted alphabetically.
-
-        String traderStr =
-                transactions.stream()
-                        .map(transaction -> transaction.getTrader().getName())
-                        .distinct()
-                        .sorted()
-                        .reduce("", (n1, n2) -> n1 + n2);
-        System.out.println(traderStr);
-
-        // Query 5: Are there any trader based in Milan?
-
-        boolean milanBased =
-                transactions.stream()
-                        .anyMatch(transaction -> transaction.getTrader()
-                                .getCity()
-                                .equals("Milan")
-                        );
-        System.out.println(milanBased);
+        // 在Cambridge工作过的员工，按照他们的名字排序
+        List<Trader> traders = transactions.stream()
+                .map(Transaction::getTrader)
+                .filter(trader -> trader.getCity().equals("Cambridge"))
+                .distinct()
+                .sorted(comparing(Trader::getName))
+                .collect(toList());
+        System.out.println("在Cambridge工作过的员工，按照他们的名字排序 -> " + traders);
 
 
-        // Query 6: Update all transactions so that the traders from Milan are set to Cambridge.
+        // 将所有员工按姓名排序输出
+        String traderStr = transactions.stream()
+                .map(transaction -> transaction.getTrader().getName())
+                .distinct()
+                .sorted()
+                .reduce("", (n1, n2) -> n1 + n2 + ",");
+        System.out.println("将所有员工按姓名排序输出 -> " + traderStr);
+
+        // 是否有在Milan工作的员工
+        boolean milanBased = transactions.stream().anyMatch(transaction -> transaction.getTrader().getCity().equals("Milan"));
+        System.out.println("是否有在Milan工作的员工 -> " + milanBased);
+
+
+        // 将所有交易产生在Milan的更新到Cambridge
         transactions.stream()
                 .map(Transaction::getTrader)
                 .filter(trader -> trader.getCity().equals("Milan"))
                 .forEach(trader -> trader.setCity("Cambridge"));
-        System.out.println(transactions);
+        System.out.println("将所有交易产生在Milan的更新到Cambridge -> " + transactions);
 
 
-        // Query 7: What's the highest value in all the transactions?
-        int highestValue =
-                transactions.stream()
-                        .map(Transaction::getValue)
-                        .reduce(0, Integer::max);
-        System.out.println(highestValue);
+        // 找出最高交易额
+        int highestValue = transactions.stream()
+                .map(Transaction::getValue)
+                .reduce(0, Integer::max);
+        System.out.println("找出最高交易额 -> " + highestValue);
     }
 }

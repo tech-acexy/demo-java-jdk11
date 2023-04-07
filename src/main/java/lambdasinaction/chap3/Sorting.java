@@ -14,13 +14,10 @@ import static java.util.Comparator.comparing;
 public class Sorting {
 
     public static void main(String... args) {
-
         List<Apple> inventory = new ArrayList<>(Arrays.asList(new Apple(80, "green"), new Apple(155, "green"), new Apple(120, "red")));
-
         // 通过 Function 接口函数 指定创建Apple的方式
         Function<Integer, Apple> createApple = Apple::new;
         BiFunction<Integer, String, Apple> createApple2 = Apple::new;
-
         Apple newApple = createApple.apply(125);
         System.out.println(newApple);
         System.out.println(createApple2.apply(123, "black"));
