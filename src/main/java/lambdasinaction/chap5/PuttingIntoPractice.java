@@ -8,6 +8,64 @@ import static java.util.stream.Collectors.toList;
 
 public class PuttingIntoPractice {
 
+    public static class Trader {
+
+        private String name;
+        private String city;
+
+        public Trader(String n, String c) {
+            this.name = n;
+            this.city = c;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getCity() {
+            return this.city;
+        }
+
+        public void setCity(String newCity) {
+            this.city = newCity;
+        }
+
+        public String toString() {
+            return "Trader:" + this.name + " in " + this.city;
+        }
+    }
+
+    public static class Transaction {
+
+        private Trader trader;
+        private int year;
+        private int value;
+
+        public Transaction(Trader trader, int year, int value) {
+            this.trader = trader;
+            this.year = year;
+            this.value = value;
+        }
+
+        public Trader getTrader() {
+            return this.trader;
+        }
+
+        public int getYear() {
+            return this.year;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+
+        public String toString() {
+            return "{" + this.trader + ", " +
+                    "year: " + this.year + ", " +
+                    "value:" + this.value + "}";
+        }
+    }
+
     public static void main(String... args) {
 
         Trader raoul = new Trader("Raoul", "Cambridge");
