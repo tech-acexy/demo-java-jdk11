@@ -1,7 +1,5 @@
 package lambdasinaction.chap2;
 
-import java.util.function.Function;
-
 public class MeaningOfThis {
     public final int value = 4;
 
