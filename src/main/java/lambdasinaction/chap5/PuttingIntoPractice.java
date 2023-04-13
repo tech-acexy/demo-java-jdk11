@@ -10,7 +10,7 @@ public class PuttingIntoPractice {
 
     public static class Trader {
 
-        private String name;
+        private final String name;
         private String city;
 
         public Trader(String n, String c) {
@@ -37,9 +37,9 @@ public class PuttingIntoPractice {
 
     public static class Transaction {
 
-        private Trader trader;
-        private int year;
-        private int value;
+        private final Trader trader;
+        private final int year;
+        private final int value;
 
         public Transaction(Trader trader, int year, int value) {
             this.trader = trader;

@@ -30,8 +30,10 @@ public class PerformanceTesting {
                         () -> new IntWrapper(random.nextInt()))
                 .limit(10000000).collect(Collectors.toList());
 
-        // 此处暗含装箱操作 int -> Integer 会消耗额外性能
-        var res = list.stream().map(IntWrapper::getValue).reduce(Integer::sum);
+        var res = list.stream()
+                // 此处暗含装箱操作 int -> Integer 会消耗额外性能
+                .map(IntWrapper::getValue)
+                .reduce(Integer::sum);
         System.out.println("包含装箱操作 结果: " + res + " 耗时: " + (System.currentTimeMillis() - currentTms) + "ms");
 
         currentTms = System.currentTimeMillis();
