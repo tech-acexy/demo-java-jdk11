@@ -3,10 +3,9 @@ package lambdasinaction.chap6;
 import com.thankjava.toolkit3d.core.fastjson.FastJson;
 import lambdasinaction.bean.Dish;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -17,6 +16,11 @@ public class Grouping {
 
     enum CaloricLevel {DIET, NORMAL, FAT}
 
+    static Function<Dish, CaloricLevel> caloricSort = dish -> {
+        if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+        else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+        else return CaloricLevel.FAT;
+    };
 
     public static void main(String... args) {
 
@@ -25,12 +29,13 @@ public class Grouping {
         System.out.println("将菜品按照类型分组后，每个分类有哪些标签: " + FastJson.toFormatJSONString(groupDishTagsByType()));
         System.out.println("将菜品按照类型分组后，每种类型有哪些菜品名和对应的菜品标签: " + FastJson.toFormatJSONString(groupDishTagsAndNameByType()));
 
-        System.out.println("Caloric dishes grouped by type: " + groupCaloricDishesByType());
-        System.out.println("Dishes grouped by caloric level: " + groupDishesByCaloricLevel());
-        System.out.println("Dishes grouped by type and caloric level: " + groupDishedByTypeAndCaloricLevel());
-        System.out.println("Count dishes in groups: " + countDishesInGroups());
-        System.out.println("Most caloric dishes by type: " + mostCaloricDishesByType());
-        System.out.println("Most caloric dishes by type: " + mostCaloricDishesByTypeWithoutOprionals());
+        System.out.println("筛选卡路里大于500的并按照类型分组: " + FastJson.toFormatJSONString(groupCaloricGT500DishesByType()));
+        System.out.println("按照卡路里大小进行分类(低中高): " + FastJson.toFormatJSONString(groupDishesByCaloricLevel()));
+        System.out.println("按照分类和卡路里分类进行分组: " + FastJson.toFormatJSONString(groupDishedByTypeAndCaloricLevel()));
+        System.out.println("统计每个类型有多少个菜品: " + FastJson.toFormatJSONString(countDishesInGroups()));
+        System.out.println("每个类型中的最高卡路里菜品: " + mostCaloricDishesByType());
+
+        System.out.println("Most caloric dishes by type: " + mostCaloricDishesByTypeWithOptionals());
         System.out.println("Sum calories by type: " + sumCaloriesByType());
         System.out.println("Caloric levels by type: " + caloricLevelsByType());
     }
@@ -66,28 +71,22 @@ public class Grouping {
     }
 
 
-    private static Map<Dish.Type, List<Dish>> groupCaloricDishesByType() {
-        return menu.stream().filter(dish -> dish.getCalories() > 500).collect(groupingBy(Dish::getType));
-//        return menu.stream().collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
+    private static Map<Dish.Type, List<Dish>> groupCaloricGT500DishesByType() {
+//        return menu.stream().filter(dish -> dish.getCalories() > 500).collect(groupingBy(Dish::getType));
+        return menu.stream().collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
     }
+
 
     private static Map<CaloricLevel, List<Dish>> groupDishesByCaloricLevel() {
         return menu.stream().collect(
-                groupingBy(dish -> {
-                    if (dish.getCalories() <= 400) return CaloricLevel.DIET;
-                    else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
-                    else return CaloricLevel.FAT;
-                }));
+                groupingBy(caloricSort)
+        );
     }
 
     private static Map<Dish.Type, Map<CaloricLevel, List<Dish>>> groupDishedByTypeAndCaloricLevel() {
         return menu.stream().collect(
                 groupingBy(Dish::getType,
-                        groupingBy((Dish dish) -> {
-                            if (dish.getCalories() <= 400) return CaloricLevel.DIET;
-                            else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
-                            else return CaloricLevel.FAT;
-                        })
+                        groupingBy(caloricSort)
                 )
         );
     }
@@ -97,12 +96,27 @@ public class Grouping {
     }
 
     private static Map<Dish.Type, Optional<Dish>> mostCaloricDishesByType() {
+
+        // 使用reducing
+//        return menu.stream().collect(
+//                groupingBy(
+//                        Dish::getType,
+//                        reducing(
+//                                (Dish d1, Dish d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2
+//                        )
+//                )
+//        );
+
+        // 使用maxBy
         return menu.stream().collect(
-                groupingBy(Dish::getType,
-                        reducing((Dish d1, Dish d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2)));
+                groupingBy(
+                        Dish::getType,
+                        maxBy(Comparator.comparingInt(Dish::getCalories))
+                )
+        );
     }
 
-    private static Map<Dish.Type, Dish> mostCaloricDishesByTypeWithoutOprionals() {
+    private static Map<Dish.Type, Dish> mostCaloricDishesByTypeWithOptionals() {
         return menu.stream().collect(
                 groupingBy(Dish::getType,
                         collectingAndThen(
